@@ -10,6 +10,6 @@ please make sure you have [PyTorch](https://pytorch.org/) and `g++` compiler ins
 
 ```bash
 git clone https://github.com/EdisonLeeeee/glcore.git && cd glcore
-pip install -e .
+pip install .
 ```
 
