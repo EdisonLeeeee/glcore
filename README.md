@@ -6,7 +6,7 @@ glcore is used for [GraphGallery](https://github.com/EdisonLeeeee/GraphGallery) 
 
 # Install
 
-please make sure you have [PyTorch](https://pytorch.org/) and `g++` compiler installed
+please make sure you have [PyTorch](https://pytorch.org/) and `g++`(supports c++14) compiler installed
 
 ```bash
 git clone https://github.com/EdisonLeeeee/glcore.git && cd glcore

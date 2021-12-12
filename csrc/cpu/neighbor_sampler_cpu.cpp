@@ -36,8 +36,6 @@ std::tuple<torch::Tensor, torch::Tensor, torch::Tensor> neighbor_sampler_cpu(tor
     std::vector<int64_t> targets;
     std::vector<int64_t> e_id;
 
-    int64_t i;
-
     int64_t n, c, e, row_start, row_end, row_count;
 
     if (num_neighbors < 0)
