@@ -220,7 +220,7 @@ std::vector<torch::Tensor> topk_forward_cuda(
                                        outColIdx.packed_accessor32<scalar_t, 2, torch::RestrictPtrTraits>(),
                                        k);
                                }));
-    return {outVal, outColIdx};
+    return {outVal, outColIdx.to(torch::kInt64)};
 }
 
 at::Tensor dimmedian_idx_forward_cuda(

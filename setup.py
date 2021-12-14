@@ -1,9 +1,11 @@
-from torch.utils.cpp_extension import BuildExtension, CppExtension, CUDAExtension
+import torch
+import sys
+import os
+from torch.utils.cpp_extension import BuildExtension, CppExtension, CUDAExtension, CUDA_HOME
 from torch.__config__ import parallel_info
 from setuptools import setup, find_packages
 
-import sys
-import os
+WITH_CUDA = torch.cuda.is_available() and CUDA_HOME is not None
 
 VERSION = "0.1.0"
 url = 'https://github.com/EdisonLeeeee/glcore'
@@ -45,6 +47,16 @@ if ('backend: OpenMP' in info and 'OpenMP not found' not in info
 else:
     print('Compiling without OpenMP...')
 
+
+# ext_modules
+ext_modules = [CppExtension("glcore.sampler", sources=["csrc/cpu/neighbor_sampler_cpu.cpp"], extra_compile_args=['-g'])]
+
+if WITH_CUDA:
+    ext_modules += [CUDAExtension("glcore.ops",
+                                  sources=["csrc/cuda/ops.cpp", "csrc/cuda/ops_kernel.cu"],
+                                  extra_compile_args=extra_compile_args,
+                                  extra_link_args=extra_link_args)]
+
 setup(
     name='glcore',
     version=VERSION,
@@ -68,13 +80,7 @@ setup(
     tests_require=tests_require,
     extras_require={'test': tests_require},
     packages=find_packages(exclude=("examples", "imgs", "benchmark", "test")),
-    ext_modules=[
-        CppExtension("glcore.sampler", sources=["csrc/cpu/neighbor_sampler_cpu.cpp"], extra_compile_args=['-g']),
-        CUDAExtension("glcore.ops",
-                      sources=["csrc/cuda/ops.cpp", "csrc/cuda/ops_kernel.cu"],
-                      extra_compile_args=extra_compile_args,
-                      extra_link_args=extra_link_args)
-    ],
+    ext_modules=ext_modules,
     cmdclass={
         'build_ext':
         BuildExtension.with_options(no_python_abi_suffix=True, use_ninja=False)
