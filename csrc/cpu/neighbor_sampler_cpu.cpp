@@ -144,7 +144,7 @@ std::tuple<torch::Tensor, torch::Tensor, torch::Tensor> neighbor_sampler_cpu(tor
     return std::make_tuple(out_target_id, out_neighbor_id, out_e_id);
 }
 
-PYBIND11_MODULE(sampler, m)
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m)
 {
     m.def("neighbor_sampler_cpu", &neighbor_sampler_cpu, "Neighborhood Sampler");
 }
